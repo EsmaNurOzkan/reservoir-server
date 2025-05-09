@@ -1,0 +1,36 @@
+# POST http://localhost:5000/api/auth/send-code
+# Content-Type: application/json
+
+# {
+#     "email": "nuresmaozkan98@gmail.com"
+# }
+
+
+# POST http://localhost:5000/api/auth/register
+# Content-Type: application/json
+
+# {
+#     "username" : "EsmaNur",
+#     "email": "nuresmaozkan98@gmail.com",
+#     "password": "12345678",
+#     "code": "5ddd1b"
+# }
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "esmanurozkan1998@gmail.com",
+    "password": "12345678"
+}
+
+
+# EsmaNur bilgileri
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmJhOTkwMzVjZTUzNmNmOGQ5ZjE5MiIsImlhdCI6MTc0NDU0NjQwNSwiZXhwIjoxNzQ0NTY4MDA1fQ._4gS5k92O41iT745tYsrD6XZir_HI9ZZKT7Ho7JsHsI",
+  "user": {
+    "id": "67fba99035ce536cf8d9f192",
+    "username": "EsmaNur",
+    "email": "nuresmaozkan98@gmail.com"
+  }
+}
