@@ -173,25 +173,78 @@ exports.register = async (req, res) => {
 
 
 
+// exports.login = async (req, res) => {
+//   const { email, password } = req.body;
+//   try {
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(400).json({ message: 'User not found' });
+//     }
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(400).json({ message: 'Invalid credentials' });
+//     }
+
+//     const EXPIRES_IN_SECONDS = 6 * 60 * 60;
+
+//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: EXPIRES_IN_SECONDS,
+//     });
+
+//     res.json({
+//       token,
+//       expiresIn: EXPIRES_IN_SECONDS,
+//       user: {
+//         id: user._id,
+//         username: user.username,
+//         email: user.email,
+//       },
+//     });
+
+//   } catch (error) {
+//     console.error('Error logging in:', error);
+//     res.status(500).json({ message: 'Error logging in' });
+//   }
+// };
+
+
 exports.login = async (req, res) => {
+  console.log("🔐 Login isteği alındı.");
+  console.log("📦 Gelen body:", req.body);
+
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    console.warn("⚠️ Eksik email ya da şifre.");
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
+
   try {
+    console.log(`🔍 Kullanıcı aranıyor: ${email}`);
     const user = await User.findOne({ email });
+
     if (!user) {
+      console.warn("❌ Kullanıcı bulunamadı.");
       return res.status(400).json({ message: 'User not found' });
     }
 
+    console.log("✅ Kullanıcı bulundu, şifre doğrulanıyor...");
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
+      console.warn("🔑 Şifre eşleşmedi.");
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     const EXPIRES_IN_SECONDS = 6 * 60 * 60;
+    console.log("🛡️ Token oluşturuluyor...");
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: EXPIRES_IN_SECONDS,
     });
 
+    console.log("✅ Giriş başarılı. Token gönderiliyor.");
     res.json({
       token,
       expiresIn: EXPIRES_IN_SECONDS,
@@ -203,7 +256,7 @@ exports.login = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error logging in:', error);
+    console.error('❗ Hata oluştu:', error);
     res.status(500).json({ message: 'Error logging in' });
   }
 };
